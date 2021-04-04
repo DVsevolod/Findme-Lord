@@ -8,6 +8,7 @@ import json
 service_url = "143.198.77.145:8000/item"
 
 def get_entry(url):
+    print("Work started")
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
     }
@@ -35,7 +36,7 @@ def get_entry(url):
                     "url_path": 'https://www.avito.ru' + ad.get('urlPath')
                 }
                 RedisAdapter.create(new_ad)
-                
+                print("Result: new ad")
                 post_result = requests.post(service_url, data={
                     "id": ad_id,
                     "name": ad.get("title"),
@@ -45,9 +46,6 @@ def get_entry(url):
 
                 return RedisAdapter.get(ad_id)
             else:
+                print("Result: Existeed")
                 return 'exists'
         break
-
-
-url = 'https://www.avito.ru/moskva?q=ps4'
-get_new_ads(url)
